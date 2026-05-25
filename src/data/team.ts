@@ -73,6 +73,7 @@ export const teamMembers: TeamMember[] = [
       },
     ],
   },
+
   {
     id: 2,
     name: "Piyush",
@@ -86,161 +87,311 @@ export const teamMembers: TeamMember[] = [
       },
     ],
   },
+
   {
     id: 3,
-    name: "Riya Kapoor",
+    name: "Jatin",
     projects: [
       {
-        title: "Sales Intelligence Dashboard",
-        category: "Power BI",
+        title: "Business Analytics Dashboard",
+        category: "Dashboard",
         description:
-          "Interactive Power BI dashboard for end-to-end sales funnel analysis.",
-        link: "#",
+          "Interactive analytics dashboard for business insights and reporting.",
+        link: "https://bchsj4idn4eb3z2qupwesv.streamlit.app/",
       },
       {
-        title: "Customer Churn Predictor",
-        category: "Machine Learning",
+        title: "Abnormal Data Point Visualizer",
+        category: "EDA",
         description:
-          "ML model predicting customer churn with 92% accuracy on telecom data.",
-        link: "#",
+          "Visual analytics platform for anomaly and outlier detection.",
+        link: "https://abnormal-data-points-visually-kvlb2nyqtuzmsrjk6q7qmq.streamlit.app/",
       },
     ],
   },
+
   {
     id: 4,
-    name: "Arjun Verma",
+    name: "Praful",
     projects: [
       {
-        title: "Supply Chain Optimizer",
-        category: "Python Analytics",
+        title: "HypothesisLab AI",
+        category: "Machine Learning",
         description:
-          "End-to-end supply chain optimization using Python and linear programming.",
-        link: "#",
+          "AI-powered statistical hypothesis testing platform.",
+        link: "https://prafulhypothesislab.streamlit.app/",
       },
     ],
   },
+
   {
     id: 5,
-    name: "Sneha Reddy",
+    name: "Tushar",
     projects: [
       {
-        title: "Healthcare Analytics Suite",
-        category: "Tableau",
+        title: "Smart City Analytics System",
+        category: "Business Intelligence",
         description:
-          "Tableau story revealing patient outcome trends across 10 hospitals.",
-        link: "#",
-      },
-      {
-        title: "Sentiment Radar",
-        category: "NLP",
-        description:
-          "Real-time Twitter sentiment analysis using BERT and Streamlit.",
-        link: "#",
+          "Smart city monitoring and analytics platform.",
+        link: "https://tushar7188.github.io/Smart-City-Analytics-System/",
       },
     ],
   },
+
   {
     id: 6,
-    name: "Karan Singh",
+    name: "Utkarsh",
     projects: [
       {
-        title: "Financial Risk Model",
-        category: "SQL & Python",
+        title: "Retail Analyze",
+        category: "Data Analytics",
         description:
-          "Credit risk modelling using SQL pipelines and scikit-learn.",
-        link: "#",
+          "Retail sales and customer analytics platform.",
+        link: "https://retailanalyse.streamlit.app/",
       },
     ],
   },
+
   {
     id: 7,
-    name: "Meera Joshi",
+    name: "Himanshu Gaur",
     projects: [
       {
-        title: "E-Commerce Recommendation Engine",
+        title: "SegmentX Analytics",
         category: "Machine Learning",
         description:
-          "Collaborative filtering recommendation engine with live product data.",
-        link: "#",
+          "Customer segmentation and analytics application.",
+        link: "https://segmentx-dldjggapjpaxksprfty2ko.streamlit.app/",
+      },
+      {
+        title: "HypothesisLab AI Advanced",
+        category: "AI Analytics",
+        description:
+          "Advanced AI-powered hypothesis analysis system.",
+        link: "https://hypothesislabai-bobmj9vgqempkbtwy6shri.streamlit.app/",
       },
     ],
   },
+
   {
     id: 8,
-    name: "Devraj Pillai",
+    name: "Kanishak",
     projects: [
       {
-        title: "Climate Data Explorer",
-        category: "Data Visualization",
-        description:
-          "Interactive globe visualisation of 50 years of climate datasets.",
-        link: "#",
-      },
-      {
-        title: "Air Quality Forecaster",
-        category: "Time Series",
-        description:
-          "LSTM-based AQI forecasting model for 15 Indian cities.",
-        link: "#",
-      },
-    ],
-  },
-  {
-    id: 9,
-    name: "Tanvi Shah",
-    projects: [
-      {
-        title: "HR Attrition Dashboard",
-        category: "Power BI",
-        description:
-          "Power BI dashboard revealing hidden patterns in employee attrition.",
-        link: "#",
-      },
-    ],
-  },
-  {
-    id: 10,
-    name: "Rohan Das",
-    projects: [
-      {
-        title: "Stock Market Pulse",
-        category: "Python Analytics",
-        description:
-          "Live stock screener and technical indicator dashboard.",
-        link: "#",
-      },
-    ],
-  },
-  {
-    id: 11,
-    name: "Nisha Pandey",
-    projects: [
-      {
-        title: "Social Media Analytics Hub",
-        category: "Data Engineering",
-        description:
-          "Aggregated cross-platform analytics with automated ETL pipelines.",
-        link: "#",
-      },
-      {
-        title: "Influencer Score Model",
+        title: "RegressionX",
         category: "Machine Learning",
         description:
-          "Scoring model that ranks influencer ROI for marketing teams.",
-        link: "#",
+          "Regression analysis and predictive modeling platform.",
+        link: "https://regressionx-regression-analysis.streamlit.app/",
+      },
+      {
+        title: "Online Examination Analytics",
+        category: "Dashboard",
+        description:
+          "Online exam management and analytics application.",
+        link: "https://online-exam-appgit-vowtmzzuyv2tzzrxbnuyju.streamlit.app/",
+      },
+      {
+        title: "Fake News Detection Analytics",
+        category: "Machine Learning",
+        description:
+          "AI-based fake news detection system.",
+        link: "https://fake-news-detection-analyticsgit.streamlit.app/",
       },
     ],
   },
+
   {
-    id: 12,
-    name: "Aditya Khanna",
+    id: 9,
+    name: "Arun Ramamwat",
     projects: [
       {
-        title: "Road Accident Analysis",
-        category: "Tableau",
+        title: "Social Media Dashboard",
+        category: "Dashboard",
         description:
-          "Geospatial Tableau viz mapping accident hotspots across Indian highways.",
-        link: "#",
+          "Social media engagement and analytics dashboard.",
+        link: "https://social-media-dashboard-5b2hcrs6ozpfztzugkscwt.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 10,
+    name: "Nikhil Purohit",
+    projects: [
+      {
+        title: "Event Management Analytics",
+        category: "Business Intelligence",
+        description:
+          "Analytics system for event management and tracking.",
+        link: "https://evenmanagemen-aqe4pvjbxl7rnnlcmvbta7.streamlit.app/",
+      },
+      {
+        title: "Abnormal Data Point Visualizer",
+        category: "EDA",
+        description:
+          "Visual analytics platform for anomaly and outlier detection.",
+        link: "https://abnormal-data-points-visually-kvlb2nyqtuzmsrjk6q7qmq.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 11,
+    name: "Sachin",
+    projects: [
+      {
+        title: "Battery Health Analytics",
+        category: "Data Analytics",
+        description:
+          "Battery health monitoring and predictive analytics.",
+        link: "https://batteryhealth-eb9568ytdnp6wzrbp33mep.streamlit.app/",
+      },
+      {
+        title: "Global Conflicts Dashboard",
+        category: "Dashboard",
+        description:
+          "Interactive geopolitical conflicts analytics dashboard.",
+        link: "https://globalconflictsdashboard-dpnxvjmtm69bhhrvc5pw5i.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 12,
+    name: "Tarannum",
+    projects: [
+      {
+        title: "Explora AI",
+        category: "AI Analytics",
+        description:
+          "AI-powered data exploration and analytics assistant.",
+        link: "https://exploraai.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 13,
+    name: "Pushkar",
+    projects: [
+      {
+        title: "AI Data Cleaner",
+        category: "Python",
+        description:
+          "Automated AI data cleaning and preprocessing tool.",
+        link: "https://ai-data-cleaner-e27awhyvqtfhhlavto4duz.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 14,
+    name: "Garvit Sharma",
+    projects: [
+      {
+        title: "Geo EDA Analyzer",
+        category: "EDA",
+        description:
+          "Geospatial exploratory data analysis platform.",
+        link: "https://geo-eda-analyser-nzbtc2ukfugwhyd76oyngd.streamlit.app/",
+      },
+      {
+        title: "Food Delivery Analytics",
+        category: "Business Intelligence",
+        description:
+          "Food delivery insights and analytics dashboard.",
+        link: "https://food-delivery-analytics-app-ccuffqfuivmdjhfbkesdzm.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 15,
+    name: "Vinit Solanki",
+    projects: [
+      {
+        title: "ESG Carbon Footprint Tracker",
+        category: "Dashboard",
+        description:
+          "ESG analytics and carbon footprint tracking platform.",
+        link: "https://esg-carbon-footprint-tracker.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 16,
+    name: "Shruti",
+    projects: [
+      {
+        title: "Hospital Dashboard",
+        category: "Healthcare Analytics",
+        description:
+          "Healthcare and hospital analytics dashboard.",
+        link: "https://hospitaldashboardswasthikbyshruti.streamlit.app/",
+      },
+      {
+        title: "Architecture Visualization Analytics",
+        category: "Visualization",
+        description:
+          "Architectural visualization and analytical insights platform.",
+        link: "https://shrutisikhwalss-arch-kantvisualize-app-jbfbob.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 17,
+    name: "Aarsdeep",
+    projects: [
+      {
+        title: "Social Media Analyzer",
+        category: "AI Analytics",
+        description:
+          "Advanced social media analytics and AI insights platform.",
+        link: "https://social-media-analyzer-6lul.onrender.com/",
+      },
+      {
+        title: "CurioViz",
+        category: "Data Visualization",
+        description:
+          "Interactive visual storytelling and data exploration platform.",
+        link: "https://curioviz.netlify.app/",
+      },
+    ],
+  },
+
+  {
+    id: 18,
+    name: "Sanvi",
+    projects: [
+      {
+        title: "Cleanora AI",
+        category: "Python",
+        description:
+          "AI-powered smart data cleaning platform.",
+        link: "https://cleanora-ai-k6n86kcasjehou7etlwnih.streamlit.app/",
+      },
+    ],
+  },
+
+  {
+    id: 19,
+    name: "Priyanka",
+    projects: [
+      {
+        title: "Smart Traffic Analysis",
+        category: "Smart Analytics",
+        description:
+          "Traffic monitoring and smart analytics platform.",
+        link: "https://smart-trafic-analysis-gf5eucytj9vmyg5utbehbn.streamlit.app/",
+      },
+      {
+        title: "SupplyIQ",
+        category: "Supply Chain Analytics",
+        description:
+          "Supply chain intelligence and analytics dashboard.",
+        link: "https://supplyiq-hggrg9cvdvpqbjibffume3.streamlit.app/",
       },
     ],
   },

@@ -151,10 +151,7 @@ function ClickParticles({ particles }: { particles: Particle[] }) {
 // ─── Main export ──────────────────────────────────────────────────────────────
 
 export function CursorGlow() {
-  // Skip on touch screens
-  const isTouch = useRef(
-    typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
-  );
+  const [isActive, setIsActive] = useState(false);
 
   // ── Raw mouse ─────────────────────────────────────────────────────────────
   const raw = useRawMouse();
@@ -191,7 +188,7 @@ export function CursorGlow() {
 
   // ── rAF trail loop ────────────────────────────────────────────────────────
   useEffect(() => {
-    if (isTouch.current) return;
+    if (!isActive) return;
     let rafId: number;
     const tick = () => {
       const x = raw.x.get();
@@ -204,15 +201,18 @@ export function CursorGlow() {
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [raw.x, raw.y]);
+  }, [raw.x, raw.y, isActive]);
 
   // ── Hover / magnetic detection ────────────────────────────────────────────
   useEffect(() => {
-    if (isTouch.current) return;
     const SELECTORS = ["button", "a", "[data-cursor-magnetic]", ".project-card", "[role='button']"];
     let prevTarget: Element | null = null;
 
     const onMove = (e: MouseEvent) => {
+      if (!isActive) {
+        setIsActive(true);
+        document.documentElement.classList.add("custom-cursor-active");
+      }
       setIsVisible(true);
       const el = (e.target as Element).closest(SELECTORS.join(","));
       if (el) {
@@ -242,7 +242,7 @@ export function CursorGlow() {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
     };
-  }, [magX, magY]);
+  }, [magX, magY, isActive]);
 
   // ── Click → particle burst ────────────────────────────────────────────────
   const spawnParticles = useCallback((e: MouseEvent) => {
@@ -271,19 +271,19 @@ export function CursorGlow() {
   }, []);
 
   useEffect(() => {
-    if (isTouch.current) return;
+    if (!isActive) return;
     window.addEventListener("mousedown", spawnParticles);
     return () => window.removeEventListener("mousedown", spawnParticles);
-  }, [spawnParticles]);
+  }, [spawnParticles, isActive]);
 
-  // ── Hide native cursor ────────────────────────────────────────────────────
+  // ── Clean up class on unmount ──────────────────────────────────────────────
   useEffect(() => {
-    if (isTouch.current) return;
-    document.documentElement.style.cursor = "none";
-    return () => { document.documentElement.style.cursor = ""; };
+    return () => {
+      document.documentElement.classList.remove("custom-cursor-active");
+    };
   }, []);
 
-  if (isTouch.current) return null;
+  if (!isActive) return null;
 
   // ── Derived values ────────────────────────────────────────────────────────
   const dotScale  = isHovering ? 0.35 : isClicking ? 1.8  : 1;

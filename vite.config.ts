@@ -12,4 +12,5 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  cloudflare: false, // Disable Cloudflare build plugin for Netlify deployment
 });

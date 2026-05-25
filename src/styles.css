@@ -1,9 +1,6 @@
-@import "tailwindcss";
-
-@import "tw-animate-css";
-
-/* Google Fonts for MLVerse-inspired UI */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
 
 /* Font utility classes */
 .font-heading {
@@ -12,9 +9,9 @@
 
 .font-body {
   font-family: 'Inter', sans-serif;
+}
 
-
-  :root {
+:root {
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
@@ -226,9 +223,10 @@
    ═══════════════════════════════════════════════════════════════ */
 
   /* Hide system cursor site-wide (JS also does this, belt-and-braces) */
-  *,
-  *::before,
-  *::after {
+  html.custom-cursor-active,
+  html.custom-cursor-active *,
+  html.custom-cursor-active *::before,
+  html.custom-cursor-active *::after {
     cursor: none !important;
   }
 
@@ -413,4 +411,3 @@
   [role="button"]:hover {
     transition: box-shadow 0.25s ease;
   }
-}
