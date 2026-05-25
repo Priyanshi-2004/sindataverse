@@ -44,6 +44,12 @@ interface Particle {
   hue: number;
 }
 
+interface Ripple {
+  id: number;
+  x: number;
+  y: number;
+}
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const TRAIL_LENGTH = 14;
@@ -181,10 +187,12 @@ export function CursorGlow() {
 
   const [trails,    setTrails]    = useState<TrailDot[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [ripples,   setRipples]   = useState<Ripple[]>([]);
 
   const trailIdRef    = useRef(0);
   const trailBuf      = useRef<{ x: number; y: number }[]>([]);
   const particleIdRef = useRef(0);
+  const rippleIdRef   = useRef(0);
 
   // ── rAF trail loop ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -244,11 +252,12 @@ export function CursorGlow() {
     };
   }, [magX, magY, isActive]);
 
-  // ── Click → particle burst ────────────────────────────────────────────────
+  // ── Click → particle burst & ripple wave ──────────────────────────────────
   const spawnParticles = useCallback((e: MouseEvent) => {
     setIsClicking(true);
     setTimeout(() => setIsClicking(false), 140);
 
+    // Particle burst
     const COUNT = 14;
     const burst: Particle[] = Array.from({ length: COUNT }, (_, i) => {
       const angle = (i / COUNT) * Math.PI * 2;
@@ -268,6 +277,17 @@ export function CursorGlow() {
     setTimeout(() => {
       setParticles((prev) => prev.filter((p) => !burst.find((b) => b.id === p.id)));
     }, 750);
+
+    // Click Ripple wave
+    const newRipple: Ripple = {
+      id: rippleIdRef.current++,
+      x: e.clientX,
+      y: e.clientY,
+    };
+    setRipples((prev) => [...prev, newRipple]);
+    setTimeout(() => {
+      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+    }, 650);
   }, []);
 
   useEffect(() => {
@@ -379,6 +399,30 @@ export function CursorGlow() {
 
       {/* ── Click particles ── */}
       <ClickParticles particles={particles} />
+
+      {/* ── Click Ripples ── */}
+      <AnimatePresence>
+        {ripples.map((r) => (
+          <motion.div
+            key={r.id}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              left: r.x,
+              top: r.y,
+              x: "-50%",
+              y: "-50%",
+              border: "2px solid #00f5ff",
+              boxShadow: "0 0 16px rgba(0, 245, 255, 0.7), inset 0 0 8px rgba(0, 245, 255, 0.3)",
+              position: "fixed",
+              zIndex: 10000,
+            }}
+            initial={{ width: 0, height: 0, opacity: 1 }}
+            animate={{ width: 140, height: 140, opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

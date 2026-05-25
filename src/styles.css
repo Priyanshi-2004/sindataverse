@@ -235,14 +235,15 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: #00f5ff;
+    background: #ffffff; /* White inner core for extreme contrast */
+    border: 2px solid #00f5ff; /* Bright neon cyan outline */
     box-shadow:
-      0 0 6px 2px #00f5ff,
-      0 0 18px 4px rgba(0, 245, 255, 0.6),
-      0 0 40px 8px rgba(0, 200, 255, 0.3);
+      0 0 8px 3px #00f5ff,
+      0 0 20px 6px rgba(0, 245, 255, 0.8),
+      0 0 45px 12px rgba(0, 200, 255, 0.4);
     pointer-events: none;
     z-index: 10002;
     will-change: transform;
@@ -253,14 +254,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 38px;
-    height: 38px;
+    width: 44px; /* Larger size */
+    height: 44px;
     border-radius: 50%;
-    border: 1.5px solid rgba(0, 245, 255, 0.9);
+    border: 2px solid #00f5ff; /* Solid high-contrast neon border */
     box-shadow:
-      0 0 8px 2px rgba(0, 245, 255, 0.7),
-      0 0 22px 4px rgba(0, 200, 255, 0.4),
-      inset 0 0 8px 2px rgba(0, 245, 255, 0.1);
+      0 0 12px rgba(0, 245, 255, 0.85),
+      0 0 28px rgba(255, 0, 128, 0.45), /* Fuchsia-pink dual outer glow */
+      inset 0 0 8px rgba(0, 245, 255, 0.25);
     pointer-events: none;
     z-index: 10001;
     will-change: transform;
@@ -268,22 +269,21 @@
   }
 
   @keyframes cursor-ring-pulse {
-
     0%,
     100% {
       box-shadow:
-        0 0 8px 2px rgba(0, 245, 255, 0.7),
-        0 0 22px 4px rgba(0, 200, 255, 0.4),
-        inset 0 0 8px 2px rgba(0, 245, 255, 0.1);
-      border-color: rgba(0, 245, 255, 0.9);
+        0 0 12px rgba(0, 245, 255, 0.85),
+        0 0 28px rgba(255, 0, 128, 0.45),
+        inset 0 0 8px rgba(0, 245, 255, 0.25);
+      border-color: #00f5ff;
     }
 
     50% {
       box-shadow:
-        0 0 14px 4px rgba(0, 245, 255, 1),
-        0 0 40px 10px rgba(0, 180, 255, 0.6),
-        0 0 80px 20px rgba(100, 0, 255, 0.2),
-        inset 0 0 14px 4px rgba(0, 245, 255, 0.2);
+        0 0 22px 6px rgba(0, 245, 255, 1),
+        0 0 50px 14px rgba(255, 0, 128, 0.65),
+        0 0 90px 25px rgba(100, 0, 255, 0.25),
+        inset 0 0 20px 6px rgba(0, 245, 255, 0.35);
       border-color: #00f5ff;
     }
   }
@@ -293,10 +293,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 22px;
-    height: 22px;
+    width: 26px; /* Nested size */
+    height: 26px;
     border-radius: 50%;
-    border: 1px dashed rgba(0, 245, 255, 0.55);
+    border: 1.5px dashed rgba(255, 0, 128, 0.85); /* Highly visible fuchsia-pink dashed ring */
+    box-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
     pointer-events: none;
     z-index: 10001;
     will-change: transform;
@@ -311,8 +312,8 @@
     height: 320px;
     border-radius: 50%;
     background: radial-gradient(circle,
-        rgba(0, 245, 255, 0.07) 0%,
-        rgba(50, 100, 255, 0.05) 40%,
+        rgba(0, 245, 255, 0.16) 0%,
+        rgba(255, 0, 128, 0.10) 45%,
         transparent 70%);
     filter: blur(24px);
     transform: translate(-50%, -50%);
@@ -323,10 +324,9 @@
   }
 
   @keyframes cursor-ambient-pulse {
-
     0%,
     100% {
-      opacity: 0.7;
+      opacity: 0.75;
     }
 
     50% {
@@ -362,8 +362,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     pointer-events: none;
     z-index: 10001;
   }
@@ -373,8 +373,10 @@
   .cursor-crosshair::after {
     content: "";
     position: absolute;
-    background: rgba(0, 245, 255, 0.9);
-    box-shadow: 0 0 6px rgba(0, 245, 255, 0.8);
+    background: #00f5ff;
+    box-shadow: 
+      0 0 6px rgba(0, 245, 255, 0.9),
+      0 0 12px rgba(255, 0, 128, 0.5);
     border-radius: 2px;
   }
 
@@ -387,8 +389,8 @@
     transform: translateY(-50%);
     box-shadow:
       0 0 5px rgba(0, 245, 255, 0.9),
-      60px 0 0 rgba(0, 245, 255, 0.9),
-      60px 0 5px rgba(0, 245, 255, 0.9);
+      64px 0 0 rgba(0, 245, 255, 0.9),
+      64px 0 5px rgba(0, 245, 255, 0.9);
   }
 
   /* Vertical bar (top + bottom ticks via box-shadow) */
@@ -400,14 +402,32 @@
     transform: translateX(-50%);
     box-shadow:
       0 0 5px rgba(0, 245, 255, 0.9),
-      0 60px 0 rgba(0, 245, 255, 0.9),
-      0 60px 5px rgba(0, 245, 255, 0.9);
+      0 64px 0 rgba(0, 245, 255, 0.9),
+      0 64px 5px rgba(0, 245, 255, 0.9);
   }
 
-  /* ── Magnetic target highlight ──────────────────────────────── */
-  button:hover,
-  a:hover,
-  [data-cursor-magnetic]:hover,
-  [role="button"]:hover {
-    transition: box-shadow 0.25s ease;
+  /* ── Hover Highlight System ────────────────────────────────── */
+  html.custom-cursor-active button,
+  html.custom-cursor-active a,
+  html.custom-cursor-active .project-card,
+  html.custom-cursor-active .team-card,
+  html.custom-cursor-active [role="button"],
+  html.custom-cursor-active [data-cursor-magnetic] {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                border-color 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+
+  html.custom-cursor-active button:hover,
+  html.custom-cursor-active a:hover,
+  html.custom-cursor-active .project-card:hover,
+  html.custom-cursor-active .team-card:hover,
+  html.custom-cursor-active [role="button"]:hover,
+  html.custom-cursor-active [data-cursor-magnetic]:hover {
+    transform: translateY(-4px) scale(1.015) !important;
+    border-color: rgba(0, 245, 255, 0.65) !important;
+    box-shadow: 
+      0 12px 36px -8px rgba(0, 0, 0, 0.85),
+      0 0 25px -3px rgba(0, 245, 255, 0.45),
+      inset 0 0 14px rgba(0, 245, 255, 0.08) !important;
   }
