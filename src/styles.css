@@ -1,0 +1,416 @@
+@import "tailwindcss";
+
+@import "tw-animate-css";
+
+/* Google Fonts for MLVerse-inspired UI */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap');
+
+/* Font utility classes */
+.font-heading {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+
+
+  :root {
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-neon-blue: var(--neon-blue);
+    --color-neon-purple: var(--neon-purple);
+    --color-neon-cyan: var(--neon-cyan);
+    --color-neon-pink: var(--neon-pink);
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
+    --animate-gradient: gradient 8s linear infinite;
+    --animate-shimmer: shimmer 2.5s linear infinite;
+  }
+
+  :root {
+    --radius: 0.875rem;
+    --background: oklch(0.08 0.02 270);
+    --foreground: oklch(0.98 0.005 250);
+    --card: oklch(0.13 0.03 270);
+    --card-foreground: oklch(0.98 0.005 250);
+    --popover: oklch(0.11 0.03 270);
+    --popover-foreground: oklch(0.98 0.005 250);
+    --primary: oklch(0.7 0.22 265);
+    --primary-foreground: oklch(0.08 0.02 270);
+    --secondary: oklch(0.2 0.05 280);
+    --secondary-foreground: oklch(0.98 0.005 250);
+    --muted: oklch(0.18 0.03 270);
+    --muted-foreground: oklch(0.7 0.03 260);
+    --accent: oklch(0.65 0.25 300);
+    --accent-foreground: oklch(0.98 0.005 250);
+    --destructive: oklch(0.65 0.25 25);
+    --destructive-foreground: oklch(0.98 0.005 250);
+    --border: oklch(0.25 0.04 270 / 50%);
+    --input: oklch(0.18 0.03 270);
+    --ring: oklch(0.7 0.22 265);
+    --neon-blue: oklch(0.72 0.22 250);
+    --neon-purple: oklch(0.68 0.26 305);
+    --neon-cyan: oklch(0.85 0.18 200);
+    --neon-pink: oklch(0.72 0.28 340);
+  }
+
+  @layer base {
+    * {
+      border-color: var(--color-border);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--color-background);
+      color: var(--color-foreground);
+      font-family: var(--font-display);
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 0%, oklch(0.7 0.22 265 / 0.18), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 80% 100%, oklch(0.65 0.25 300 / 0.18), transparent 60%);
+      background-attachment: fixed;
+    }
+
+    ::selection {
+      background: oklch(0.7 0.22 265 / 0.4);
+      color: oklch(0.98 0.005 250);
+    }
+  }
+
+  @layer utilities {
+    .glass {
+      background: oklch(0.13 0.03 270 / 0.5);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border: 1px solid oklch(1 0 0 / 0.08);
+    }
+
+    .glass-strong {
+      background: oklch(0.11 0.03 270 / 0.75);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid oklch(1 0 0 / 0.1);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue) 40%, var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .text-gradient-animated {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-blue));
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradient 8s linear infinite;
+    }
+
+    .border-gradient {
+      position: relative;
+      background-clip: padding-box;
+    }
+
+    .border-gradient::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .glow-blue {
+      box-shadow: 0 0 40px -10px oklch(0.72 0.22 250 / 0.6), 0 0 80px -30px oklch(0.72 0.22 250 / 0.4);
+    }
+
+    .glow-purple {
+      box-shadow: 0 0 40px -10px oklch(0.68 0.26 305 / 0.6), 0 0 80px -30px oklch(0.68 0.26 305 / 0.4);
+    }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 30%, transparent 80%);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+
+    50% {
+      transform: translateY(-24px) translateX(8px);
+    }
+  }
+
+  @keyframes glow-pulse {
+
+    0%,
+    100% {
+      opacity: 0.6;
+      filter: blur(40px);
+    }
+
+    50% {
+      opacity: 1;
+      filter: blur(60px);
+    }
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+   CYBERPUNK CURSOR SYSTEM
+   ═══════════════════════════════════════════════════════════════ */
+
+  /* Hide system cursor site-wide (JS also does this, belt-and-braces) */
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+
+  /* ── Centre dot ─────────────────────────────────────────────── */
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00f5ff;
+    box-shadow:
+      0 0 6px 2px #00f5ff,
+      0 0 18px 4px rgba(0, 245, 255, 0.6),
+      0 0 40px 8px rgba(0, 200, 255, 0.3);
+    pointer-events: none;
+    z-index: 10002;
+    will-change: transform;
+  }
+
+  /* ── Outer neon ring ────────────────────────────────────────── */
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0, 245, 255, 0.9);
+    box-shadow:
+      0 0 8px 2px rgba(0, 245, 255, 0.7),
+      0 0 22px 4px rgba(0, 200, 255, 0.4),
+      inset 0 0 8px 2px rgba(0, 245, 255, 0.1);
+    pointer-events: none;
+    z-index: 10001;
+    will-change: transform;
+    animation: cursor-ring-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes cursor-ring-pulse {
+
+    0%,
+    100% {
+      box-shadow:
+        0 0 8px 2px rgba(0, 245, 255, 0.7),
+        0 0 22px 4px rgba(0, 200, 255, 0.4),
+        inset 0 0 8px 2px rgba(0, 245, 255, 0.1);
+      border-color: rgba(0, 245, 255, 0.9);
+    }
+
+    50% {
+      box-shadow:
+        0 0 14px 4px rgba(0, 245, 255, 1),
+        0 0 40px 10px rgba(0, 180, 255, 0.6),
+        0 0 80px 20px rgba(100, 0, 255, 0.2),
+        inset 0 0 14px 4px rgba(0, 245, 255, 0.2);
+      border-color: #00f5ff;
+    }
+  }
+
+  /* ── Inner dashed spinning ring ─────────────────────────────── */
+  .cursor-ring-inner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px dashed rgba(0, 245, 255, 0.55);
+    pointer-events: none;
+    z-index: 10001;
+    will-change: transform;
+  }
+
+  /* ── Ambient glow blob ──────────────────────────────────────── */
+  .cursor-ambient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(0, 245, 255, 0.07) 0%,
+        rgba(50, 100, 255, 0.05) 40%,
+        transparent 70%);
+    filter: blur(24px);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9998;
+    will-change: transform;
+    animation: cursor-ambient-pulse 3.2s ease-in-out infinite;
+  }
+
+  @keyframes cursor-ambient-pulse {
+
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* ── Trail dots ─────────────────────────────────────────────── */
+  .cursor-trail-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+  }
+
+  /* ── Click particles ────────────────────────────────────────── */
+  .cursor-particle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10003;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+  }
+
+  /* ── Crosshair ticks (visible on hover) ────────────────────── */
+  .cursor-crosshair {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 52px;
+    height: 52px;
+    pointer-events: none;
+    z-index: 10001;
+  }
+
+  /* Four tick marks drawn via pseudo-elements + box shadows */
+  .cursor-crosshair::before,
+  .cursor-crosshair::after {
+    content: "";
+    position: absolute;
+    background: rgba(0, 245, 255, 0.9);
+    box-shadow: 0 0 6px rgba(0, 245, 255, 0.8);
+    border-radius: 2px;
+  }
+
+  /* Horizontal bar (left + right ticks via box-shadow) */
+  .cursor-crosshair::before {
+    width: 8px;
+    height: 1.5px;
+    top: 50%;
+    left: -8px;
+    transform: translateY(-50%);
+    box-shadow:
+      0 0 5px rgba(0, 245, 255, 0.9),
+      60px 0 0 rgba(0, 245, 255, 0.9),
+      60px 0 5px rgba(0, 245, 255, 0.9);
+  }
+
+  /* Vertical bar (top + bottom ticks via box-shadow) */
+  .cursor-crosshair::after {
+    width: 1.5px;
+    height: 8px;
+    left: 50%;
+    top: -8px;
+    transform: translateX(-50%);
+    box-shadow:
+      0 0 5px rgba(0, 245, 255, 0.9),
+      0 60px 0 rgba(0, 245, 255, 0.9),
+      0 60px 5px rgba(0, 245, 255, 0.9);
+  }
+
+  /* ── Magnetic target highlight ──────────────────────────────── */
+  button:hover,
+  a:hover,
+  [data-cursor-magnetic]:hover,
+  [role="button"]:hover {
+    transition: box-shadow 0.25s ease;
+  }
+}
