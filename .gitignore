@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Bun lockfile (uses workspace: protocol that npm on Netlify cannot handle)
+bun.lock
+bunfig.toml
