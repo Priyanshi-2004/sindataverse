@@ -5,6 +5,9 @@ import { projects, type Project, type Difficulty } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 
+import { getDBProjects } from "../lib/actions/dbActions";
+import { useEffect } from "react";
+
 const DIFFICULTIES: Difficulty[] = ["Beginner", "Intermediate", "Advanced"];
 
 interface Props {
@@ -15,22 +18,36 @@ interface Props {
 export function ProjectGrid({ activeCategory, onCategoryChange }: Props) {
   const [query, setQuery] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
-  const [open, setOpen] = useState<Project | null>(null);
+  const [open, setOpen] = useState<any | null>(null);
+  const [projectsList, setProjectsList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getDBProjects()
+      .then((data) => {
+        setProjectsList(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load projects from database:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return projects.filter((p) => {
+    return projectsList.filter((p) => {
       if (activeCategory && p.category !== activeCategory) return false;
       if (difficulty && p.difficulty !== difficulty) return false;
       if (!q) return true;
       return (
         p.title.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
-        p.technologies.some((t) => t.toLowerCase().includes(q)) ||
+        p.technologies.some((t: string) => t.toLowerCase().includes(q)) ||
         p.category.toLowerCase().includes(q)
       );
     });
-  }, [query, difficulty, activeCategory]);
+  }, [query, difficulty, activeCategory, projectsList]);
 
   return (
     <section id="projects" className="relative mx-auto max-w-7xl px-6 py-20">
@@ -47,9 +64,10 @@ export function ProjectGrid({ activeCategory, onCategoryChange }: Props) {
           </p>
         </div>
         <div className="text-sm text-muted-foreground">
-          {filtered.length} of {projects.length} shown
+          {loading ? "Loading..." : `${filtered.length} of ${projectsList.length} shown`}
         </div>
       </div>
+
 
       {/* controls */}
       <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-center">
@@ -134,7 +152,7 @@ export function ProjectGrid({ activeCategory, onCategoryChange }: Props) {
         <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {filtered.map((p, i) => (
-              <ProjectCard key={p.id} project={p} onOpen={setOpen} index={i} />
+              <ProjectCard key={p.id || p._id || i} project={p} onOpen={setOpen} index={i} />
             ))}
           </AnimatePresence>
         </motion.div>

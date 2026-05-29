@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import {
   TbBrandGithub,
   TbBrandLinkedin,
@@ -6,11 +8,96 @@ import {
   TbBrandYoutube,
   TbArrowRight,
   TbUsers,
+  TbTerminal,
+  TbSend,
+  TbLoader,
+  TbRefresh,
+  TbDatabase,
+  TbLock,
 } from "react-icons/tb";
 
 import { ParticleField } from "./ParticleField";
+import { submitInquiry, getInquiries, deleteInquiry } from "../lib/actions/inquiryActions";
+import { getDBOfficials } from "../lib/actions/dbActions";
+
 
 export function ConnectPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [interest, setInterest] = useState("General Inquiry");
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [showInbox, setShowInbox] = useState(false);
+  const [inquiries, setInquiries] = useState<any[]>([]);
+  const [isLoadingInbox, setIsLoadingInbox] = useState(false);
+
+  const fetchInquiries = async () => {
+    setIsLoadingInbox(true);
+    try {
+      const res = await getInquiries();
+      setInquiries(res);
+    } catch (err: any) {
+      console.error("Failed to load inquiries:", err);
+      toast.error("Failed to connect to MongoDB. Ensure your local server is running.");
+    } finally {
+      setIsLoadingInbox(false);
+    }
+  };
+
+  const [officials, setOfficials] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDBOfficials()
+      .then((data) => setOfficials(data))
+      .catch((err) => console.error("Failed to load officials from DB:", err));
+  }, []);
+
+  useEffect(() => {
+    if (showInbox) {
+      fetchInquiries();
+    }
+  }, [showInbox]);
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const res = await submitInquiry({
+        data: { name, email, interest, message }
+      });
+      if (res.success) {
+        toast.success("Transmission successful! Document saved in MongoDB.");
+        setName("");
+        setEmail("");
+        setMessage("");
+        if (showInbox) {
+          fetchInquiries();
+        }
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to transmit message.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await deleteInquiry({ data: { id } });
+      if (res.success) {
+        toast.success("Telemetry payload purged from MongoDB!");
+        fetchInquiries();
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to purge telemetry payload.");
+    }
+  };
 
   // SOCIAL LINKS
   const socials = [
@@ -198,6 +285,221 @@ export function ConnectPage() {
 
           </div>
 
+          {/* TRANSMISSION TERMINAL (CONTACT FORM) */}
+          <div className="mt-12 rounded-2xl border border-cyan-400/15 bg-[#07111f]/60 p-6 md:p-8 backdrop-blur-xl relative">
+            {/* Cyan pulse glow in corner */}
+            <div className="absolute right-0 top-0 h-24 w-24 bg-cyan-400/5 blur-2xl rounded-full" />
+            
+            <h3 className="text-center font-heading text-lg font-bold uppercase tracking-[0.25em] text-cyan-300 flex items-center justify-center gap-2">
+              <TbSend className="h-5 w-5 animate-pulse" />
+              TRANSMISSION TERMINAL
+            </h3>
+            <p className="mt-2 text-center text-[10px] tracking-[0.1em] text-white/40 uppercase">
+              Send a secure telemetry message direct to our MongoDB Cluster
+            </p>
+
+            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
+                    IDENTIFIER / NAME
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your name"
+                    className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c]/80 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
+                    COMM CHANNEL / EMAIL
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@domain.com"
+                    className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c]/80 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
+                  INTEREST VECTOR
+                </label>
+                <div className="relative">
+                  <select
+                    value={interest}
+                    onChange={(e) => setInterest(e.target.value)}
+                    className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c] px-4 py-3 text-sm text-white transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)] appearance-none cursor-pointer"
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Project Collaboration">Project Collaboration</option>
+                    <option value="Join the Team">Join the Team</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-cyan-300">
+                    <TbArrowRight className="h-4 w-4 rotate-90" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
+                  ENCRYPTED PAYLOAD / MESSAGE
+                </label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Type your message here..."
+                  rows={4}
+                  className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c]/80 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)] resize-none"
+                  required
+                />
+              </div>
+
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group relative overflow-hidden rounded-xl border border-cyan-400 bg-cyan-400/10 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.25em] text-cyan-300 transition-all duration-300 hover:scale-[1.03] hover:bg-cyan-400/25 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <TbLoader className="h-4 w-4 animate-spin" />
+                      TRANSMITTING...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <TbSend className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      INITIALIZE TRANSMISSION
+                    </span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* CYBER INBOX PANEL */}
+          <div className="mt-8 flex flex-col items-center">
+            <button
+              onClick={() => setShowInbox(!showInbox)}
+              className="group flex items-center gap-2 rounded-full border border-pink-500/30 bg-pink-500/[0.04] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-pink-300 transition-all duration-300 hover:scale-105 hover:border-pink-400 hover:bg-pink-500/10 hover:shadow-[0_0_20px_rgba(236,72,153,0.15)] cursor-pointer"
+            >
+              {showInbox ? (
+                <>
+                  <TbLock className="h-4 w-4 animate-bounce" />
+                  CLOSE SECURE INBOX
+                </>
+              ) : (
+                <>
+                  <TbTerminal className="h-4 w-4 animate-pulse" />
+                  ACCESS SECURE INBOX (MONGODB COMPASS)
+                </>
+              )}
+            </button>
+
+            {showInbox && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.5 }}
+                className="w-full mt-6 rounded-2xl border border-green-500/30 bg-[#010a05]/95 p-6 backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.05)] relative"
+              >
+                {/* Scanline overlay */}
+                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%),_linear-gradient(90deg,_rgba(255,0,0,0.06),_rgba(0,255,0,0.02),_rgba(0,0,255,0.06))] bg-[size:100%_4px,_6px_100%] opacity-20" />
+                
+                <div className="flex items-center justify-between border-b border-green-500/20 pb-4 relative z-10">
+                  <div className="flex items-center gap-2">
+                    <TbDatabase className="h-5 w-5 text-green-400 animate-pulse" />
+                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-green-400 font-bold">
+                      DATABASE: dataverse | COLLECTION: inquiries
+                    </span>
+                  </div>
+                  <button
+                    onClick={fetchInquiries}
+                    disabled={isLoadingInbox}
+                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/5 text-green-400 transition-all hover:bg-green-500/20 disabled:opacity-50 cursor-pointer"
+                  >
+                    <TbRefresh className={`h-4 w-4 ${isLoadingInbox ? "animate-spin" : ""}`} />
+                  </button>
+                </div>
+
+                <div className="mt-6 space-y-4 max-h-[350px] overflow-y-auto custom-scrollbar relative z-10">
+                  {isLoadingInbox && inquiries.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-10">
+                      <div className="h-6 w-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-green-400/60">
+                        Querying MongoDB cluster...
+                      </p>
+                    </div>
+                  ) : inquiries.length === 0 ? (
+                    <div className="text-center py-10">
+                      <p className="font-mono text-xs text-green-500/50 uppercase tracking-widest">
+                        -- NO RECORDS DETECTED IN MONGODB --
+                      </p>
+                      <p className="mt-2 text-[10px] font-mono text-green-500/30">
+                        Submit a message above to populate the collection instantly!
+                      </p>
+                    </div>
+                  ) : (
+                    inquiries.map((inquiry, i) => (
+                      <motion.div
+                        key={inquiry.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="rounded-lg border border-green-500/10 bg-green-950/[0.05] p-4 hover:border-green-500/30 transition-all duration-300 hover:bg-green-950/[0.1] text-left"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-green-500/10 pb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-xs font-bold text-green-400">
+                              {inquiry.name}
+                            </span>
+                            <span className="rounded border border-green-500/30 bg-green-950/20 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-wider text-green-300">
+                              {inquiry.interest}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-[9px] text-green-500/40">
+                              {new Date(inquiry.createdAt).toLocaleString()}
+                            </span>
+                            <button
+                              onClick={() => handleDelete(inquiry.id)}
+                              className="rounded border border-red-500/30 bg-red-950/20 px-2 py-0.5 font-mono text-[8px] uppercase tracking-wider text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 cursor-pointer"
+                            >
+                              Purge
+                            </button>
+                          </div>
+                        </div>
+                        <div className="mt-3">
+                          <p className="font-mono text-[11px] text-green-400 leading-relaxed whitespace-pre-wrap">
+                            <span className="text-green-500/30 mr-1">$</span>
+                            {inquiry.message}
+                          </p>
+                        </div>
+                        <div className="mt-2 font-mono text-[8px] text-green-500/30 flex justify-between">
+                          <span>ID: {inquiry.id}</span>
+                          <span>EMAIL: {inquiry.email}</span>
+                        </div>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+                
+                <div className="mt-4 border-t border-green-500/10 pt-4 flex justify-between items-center relative z-10 font-mono text-[9px] text-green-500/40">
+                  <span>STATUS: SECURE HANDSHAKE COMPLETED</span>
+                  <span>SYNCED WITH COMPASS</span>
+                </div>
+              </motion.div>
+            )}
+          </div>
+
           {/* DIVIDER */}
           <div className="my-12 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" />
 
@@ -208,100 +510,53 @@ export function ConnectPage() {
             OUR OFFICIALS
           </h2>
 
-          {/* MAIN CARD */}
-          <div className="mt-10 rounded-[28px] border border-cyan-400/30 bg-gradient-to-r from-cyan-400/[0.03] to-pink-500/[0.03] p-8 text-center transition-all duration-500 hover:border-cyan-300 hover:shadow-[0_0_50px_rgba(0,255,255,0.08)]">
-
-            <div className="mb-5 flex justify-center">
-              <div className="rounded-full bg-yellow-400 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-black">
-                LEAD MENTOR
-              </div>
+          {/* DYNAMIC OFFICIALS LIST */}
+          {officials.length === 0 ? (
+            <div className="mt-8 text-center text-xs text-white/35 font-mono">
+              LOADING OFFICIAL DATA FROM TELEMETRY VECTOR...
             </div>
+          ) : (
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {officials.map((official) => {
+                const isMentor = official.badge === "DIRECTOR" || official.badge === "LEAD" || official.badge === "LEAD MENTOR";
+                return (
+                  <div
+                    key={official.id || official._id}
+                    className={`relative overflow-hidden rounded-[28px] border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,255,255,0.05)] ${
+                      isMentor
+                        ? "border-yellow-400/30 bg-gradient-to-br from-yellow-400/[0.04] to-transparent hover:border-yellow-300"
+                        : "border-cyan-400/20 bg-cyan-400/[0.03] hover:border-cyan-300"
+                    }`}
+                  >
+                    {/* Badge */}
+                    <div className="mb-4 flex justify-center">
+                      <div className={`rounded-full px-3 py-1 text-[9px] font-black tracking-wider ${
+                        isMentor ? "bg-yellow-400 text-black" : "bg-cyan-500/10 text-cyan-300 border border-cyan-400/20"
+                      }`}>
+                        {official.badge}
+                      </div>
+                    </div>
 
-            <h3 className="text-3xl font-black text-cyan-300">
-              Er Priyanshi Gupta
-            </h3>
+                    {/* Role */}
+                    <p className="text-center text-[10px] uppercase tracking-[0.35em] text-pink-400">
+                      {official.role}
+                    </p>
 
-            <p className="mt-3 text-sm text-white/50">
-              Data Analytics Instructor
-            </p>
+                    {/* Name */}
+                    <h3 className={`mt-3 text-center text-xl font-black ${isMentor ? "text-yellow-300" : "text-white"}`}>
+                      {official.name}
+                    </h3>
 
-          </div>
-
-          {/* SMALL CARDS */}
-          <div className="mt-6">
-
-            {/* TOP TWO CARDS */}
-            <div className="grid gap-5 md:grid-cols-2">
-
-              {/* CARD 1 */}
-              <div className="relative overflow-hidden rounded-[28px] border border-yellow-400/30 bg-gradient-to-br from-yellow-400/[0.04] to-transparent p-8 transition-all duration-300 hover:-translate-y-1 hover:border-yellow-300 h-[200px]">
-
-                {/* ROLE */}
-                <p className="mt-3 text-center text-[11px] uppercase tracking-[0.35em] text-pink-400">
-                  Director & Registrar
-                </p>
-
-                {/* NAME */}
-                <h3 className="mt-6 text-center text-3xl font-black text-yellow-300">
-                  Dr Manish Bafna
-                </h3>
-
-                {/* DESIGNATION */}
-                <p className="mt-4 text-center text-sm text-white/50">
-                  Registrar, JIET Universe
-                </p>
-
-
-
-              </div>
-
-              {/* CARD 2 */}
-              <div className="relative overflow-hidden rounded-[28px] border border-cyan-400/20 bg-cyan-400/[0.03] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300 h-[200px]">
-
-                {/* ROLE */}
-                <p className="text-center text-[11px] uppercase tracking-[0.35em] text-pink-400">
-                  TPO
-                </p>
-
-                {/* NAME */}
-                <h3 className="mt-6 text-center text-3xl font-black text-white">
-                  Sanjay Bhandari
-                </h3>
-
-                {/* DESIGNATION */}
-                <p className="mt-4 text-center text-sm text-white/50">
-                  Training & Placement Officer
-                </p>
-
-              </div>
-
+                    {/* Designation */}
+                    <p className="mt-3 text-center text-xs text-white/50 leading-relaxed">
+                      {official.designation}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
+          )}
 
-            {/* CARD 3 */}
-            <div className="mt-5 max-w-[370px]">
-
-              <div className="relative overflow-hidden rounded-[28px] border border-cyan-400/20 bg-cyan-400/[0.03] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300">
-
-                {/* ROLE */}
-                <p className="text-center text-[11px] uppercase tracking-[0.35em] text-pink-400">
-                  Coordinator
-                </p>
-
-                {/* NAME */}
-                <h3 className="mt-6 text-center text-3xl font-black text-white">
-                  Laxmi Choudhary
-                </h3>
-
-                {/* DESIGNATION */}
-                <p className="mt-4 text-center text-sm text-white/50">
-                  ML Course Coordinator
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
 
         </motion.div>
       </div>

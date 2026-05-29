@@ -10,12 +10,14 @@ import {
 import { teamMembers } from "../data/team";
 
 interface Props {
-  memberId: number;
+  memberId: string | number;
   onClose: () => void;
+  membersList?: any[];
 }
 
-export function TeamMemberModal({ memberId, onClose }: Props) {
-  const member = teamMembers.find((m) => m.id === memberId);
+export function TeamMemberModal({ memberId, onClose, membersList = [] }: Props) {
+  const member = membersList.find((m) => (m.id || m._id) === memberId);
+
 
   // Close on Escape
   useEffect(() => {
@@ -29,10 +31,12 @@ export function TeamMemberModal({ memberId, onClose }: Props) {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
-
   if (!member) return null;
 
-  const serial = `#${String(member.id).padStart(3, "0")}`;
+  const displayId = member.id !== undefined ? member.id : member._id?.substring(member._id.length - 3) || "000";
+  const serial = `#${String(displayId).padStart(3, "0")}`;
+
+
 
   return (
     <AnimatePresence>
@@ -155,7 +159,7 @@ export function TeamMemberModal({ memberId, onClose }: Props) {
             </div>
 
             <div className="space-y-3">
-              {member.projects.map((project, i) => (
+              {member.projects.map((project: any, i: number) => (
                 <motion.div
                   key={project.title}
                   initial={{ opacity: 0, x: -12 }}

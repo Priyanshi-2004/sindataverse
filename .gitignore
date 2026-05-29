@@ -15,6 +15,8 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
+.env
+.env.*
 
 # Wrangler / Cloudflare
 .wrangler/
@@ -34,3 +36,6 @@ dist-ssr
 # Bun lockfile (uses workspace: protocol that npm on Netlify cannot handle)
 bun.lock
 bunfig.toml
+
+# Local Netlify folder
+.netlify

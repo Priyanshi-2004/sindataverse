@@ -10,33 +10,126 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTeamRouteImport } from './routes/api/team'
+import { Route as ApiSeedRouteImport } from './routes/api/seed'
+import { Route as ApiProjectsRouteImport } from './routes/api/projects'
+import { Route as ApiOfficialsRouteImport } from './routes/api/officials'
+import { Route as ApiInquiriesRouteImport } from './routes/api/inquiries'
+import { Route as ApiTeamIdRouteImport } from './routes/api/team.$id'
+import { Route as ApiInquiriesIdRouteImport } from './routes/api/inquiries.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTeamRoute = ApiTeamRouteImport.update({
+  id: '/api/team',
+  path: '/api/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSeedRoute = ApiSeedRouteImport.update({
+  id: '/api/seed',
+  path: '/api/seed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProjectsRoute = ApiProjectsRouteImport.update({
+  id: '/api/projects',
+  path: '/api/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOfficialsRoute = ApiOfficialsRouteImport.update({
+  id: '/api/officials',
+  path: '/api/officials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInquiriesRoute = ApiInquiriesRouteImport.update({
+  id: '/api/inquiries',
+  path: '/api/inquiries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTeamIdRoute = ApiTeamIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiTeamRoute,
+} as any)
+const ApiInquiriesIdRoute = ApiInquiriesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiInquiriesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/inquiries': typeof ApiInquiriesRouteWithChildren
+  '/api/officials': typeof ApiOfficialsRoute
+  '/api/projects': typeof ApiProjectsRoute
+  '/api/seed': typeof ApiSeedRoute
+  '/api/team': typeof ApiTeamRouteWithChildren
+  '/api/inquiries/$id': typeof ApiInquiriesIdRoute
+  '/api/team/$id': typeof ApiTeamIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/inquiries': typeof ApiInquiriesRouteWithChildren
+  '/api/officials': typeof ApiOfficialsRoute
+  '/api/projects': typeof ApiProjectsRoute
+  '/api/seed': typeof ApiSeedRoute
+  '/api/team': typeof ApiTeamRouteWithChildren
+  '/api/inquiries/$id': typeof ApiInquiriesIdRoute
+  '/api/team/$id': typeof ApiTeamIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/inquiries': typeof ApiInquiriesRouteWithChildren
+  '/api/officials': typeof ApiOfficialsRoute
+  '/api/projects': typeof ApiProjectsRoute
+  '/api/seed': typeof ApiSeedRoute
+  '/api/team': typeof ApiTeamRouteWithChildren
+  '/api/inquiries/$id': typeof ApiInquiriesIdRoute
+  '/api/team/$id': typeof ApiTeamIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/inquiries'
+    | '/api/officials'
+    | '/api/projects'
+    | '/api/seed'
+    | '/api/team'
+    | '/api/inquiries/$id'
+    | '/api/team/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/inquiries'
+    | '/api/officials'
+    | '/api/projects'
+    | '/api/seed'
+    | '/api/team'
+    | '/api/inquiries/$id'
+    | '/api/team/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/inquiries'
+    | '/api/officials'
+    | '/api/projects'
+    | '/api/seed'
+    | '/api/team'
+    | '/api/inquiries/$id'
+    | '/api/team/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiInquiriesRoute: typeof ApiInquiriesRouteWithChildren
+  ApiOfficialsRoute: typeof ApiOfficialsRoute
+  ApiProjectsRoute: typeof ApiProjectsRoute
+  ApiSeedRoute: typeof ApiSeedRoute
+  ApiTeamRoute: typeof ApiTeamRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +141,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/team': {
+      id: '/api/team'
+      path: '/api/team'
+      fullPath: '/api/team'
+      preLoaderRoute: typeof ApiTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/seed': {
+      id: '/api/seed'
+      path: '/api/seed'
+      fullPath: '/api/seed'
+      preLoaderRoute: typeof ApiSeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/projects': {
+      id: '/api/projects'
+      path: '/api/projects'
+      fullPath: '/api/projects'
+      preLoaderRoute: typeof ApiProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/officials': {
+      id: '/api/officials'
+      path: '/api/officials'
+      fullPath: '/api/officials'
+      preLoaderRoute: typeof ApiOfficialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inquiries': {
+      id: '/api/inquiries'
+      path: '/api/inquiries'
+      fullPath: '/api/inquiries'
+      preLoaderRoute: typeof ApiInquiriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/team/$id': {
+      id: '/api/team/$id'
+      path: '/$id'
+      fullPath: '/api/team/$id'
+      preLoaderRoute: typeof ApiTeamIdRouteImport
+      parentRoute: typeof ApiTeamRoute
+    }
+    '/api/inquiries/$id': {
+      id: '/api/inquiries/$id'
+      path: '/$id'
+      fullPath: '/api/inquiries/$id'
+      preLoaderRoute: typeof ApiInquiriesIdRouteImport
+      parentRoute: typeof ApiInquiriesRoute
+    }
   }
 }
 
+interface ApiInquiriesRouteChildren {
+  ApiInquiriesIdRoute: typeof ApiInquiriesIdRoute
+}
+
+const ApiInquiriesRouteChildren: ApiInquiriesRouteChildren = {
+  ApiInquiriesIdRoute: ApiInquiriesIdRoute,
+}
+
+const ApiInquiriesRouteWithChildren = ApiInquiriesRoute._addFileChildren(
+  ApiInquiriesRouteChildren,
+)
+
+interface ApiTeamRouteChildren {
+  ApiTeamIdRoute: typeof ApiTeamIdRoute
+}
+
+const ApiTeamRouteChildren: ApiTeamRouteChildren = {
+  ApiTeamIdRoute: ApiTeamIdRoute,
+}
+
+const ApiTeamRouteWithChildren =
+  ApiTeamRoute._addFileChildren(ApiTeamRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiInquiriesRoute: ApiInquiriesRouteWithChildren,
+  ApiOfficialsRoute: ApiOfficialsRoute,
+  ApiProjectsRoute: ApiProjectsRoute,
+  ApiSeedRoute: ApiSeedRoute,
+  ApiTeamRoute: ApiTeamRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

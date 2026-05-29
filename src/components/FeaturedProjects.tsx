@@ -1,13 +1,20 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { projects } from "@/data/projects";
+import { useState, useEffect } from "react";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
-import type { Project } from "@/data/projects";
+import { getDBProjects } from "../lib/actions/dbActions";
 
 export function FeaturedProjects() {
-  const [open, setOpen] = useState<Project | null>(null);
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+  const [open, setOpen] = useState<any | null>(null);
+  const [projectsList, setProjectsList] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDBProjects()
+      .then((data) => setProjectsList(data))
+      .catch((err) => console.error("Failed to load featured projects:", err));
+  }, []);
+
+  const featured = projectsList.filter((p) => p.featured).slice(0, 3);
 
   return (
     <section className="relative mx-auto max-w-7xl px-6 py-24">
@@ -31,7 +38,7 @@ export function FeaturedProjects() {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((p, i) => (
-          <ProjectCard key={p.id} project={p} onOpen={setOpen} index={i} />
+          <ProjectCard key={p.id || p._id || i} project={p} onOpen={setOpen} index={i} />
         ))}
       </div>
 
@@ -39,3 +46,4 @@ export function FeaturedProjects() {
     </section>
   );
 }
+

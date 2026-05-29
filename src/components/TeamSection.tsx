@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { TbSparkles, TbUsers } from "react-icons/tb";
-import { teamMembers } from "../data/team";
 import { TeamCard } from "./TeamCard";
 import { TeamMemberModal } from "./TeamMemberModal";
 import { ParticleField } from "./ParticleField";
+import { getDBTeamMembers } from "../lib/actions/dbActions";
 
 // ── Section-level floating blur orbs ──────────────────────────
 
@@ -30,7 +30,7 @@ function FloatOrb({
 
 // ── Section heading ────────────────────────────────────────────
 
-function SectionHead() {
+function SectionHead({ count, projectCount }: { count: number; projectCount: number }) {
   return (
     <div className="relative z-10 mx-auto mb-16 max-w-3xl px-6 text-center">
       {/* Pill badge */}
@@ -43,7 +43,7 @@ function SectionHead() {
       >
         <TbUsers className="h-3.5 w-3.5 text-cyan-400" />
         <span className="text-white/50">
-          {teamMembers.length} builders · {teamMembers.reduce((s, m) => s + m.projects.length, 0)} projects
+          {count} builders · {projectCount} projects
         </span>
       </motion.div>
 
@@ -97,7 +97,23 @@ function SectionHead() {
 // ── Main export ────────────────────────────────────────────────
 
 export function TeamSection() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [members, setMembers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getDBTeamMembers()
+      .then((data) => {
+        setMembers(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load DB team members:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const totalProjects = members.reduce((sum, member) => sum + member.projects.length, 0);
 
   return (
     <section
@@ -169,20 +185,26 @@ export function TeamSection() {
       </div>
 
       {/* Heading block */}
-      <SectionHead />
+      <SectionHead count={members.length} projectCount={totalProjects} />
 
       {/* Team grid */}
       <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {teamMembers.map((member, i) => (
-            <TeamCard
-              key={member.id}
-              member={member}
-              index={i}
-              onClick={() => setSelectedId(member.id)}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-20 text-white/50 font-mono text-sm">
+            INITIALIZING CORE DATABASE SECTORS...
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {members.map((member, i) => (
+              <TeamCard
+                key={member.id || member._id}
+                member={member}
+                index={i}
+                onClick={() => setSelectedId(member.id || member._id)}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Bottom stats strip */}
         <motion.div
@@ -193,9 +215,9 @@ export function TeamSection() {
           className="mt-14 flex flex-wrap justify-center gap-6"
         >
           {[
-            { v: teamMembers.length, l: "Team Members" },
+            { v: members.length, l: "Team Members" },
             {
-              v: teamMembers.reduce((s, m) => s + m.projects.length, 0),
+              v: totalProjects,
               l: "Projects Built",
             },
             { v: "9+", l: "Tech Stacks" },
@@ -227,8 +249,10 @@ export function TeamSection() {
         <TeamMemberModal
           memberId={selectedId}
           onClose={() => setSelectedId(null)}
+          membersList={members}
         />
       )}
     </section>
   );
 }
+

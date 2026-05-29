@@ -1,6 +1,8 @@
+import { getDBProjects } from "../lib/actions/dbActions";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { categories } from "@/data/categories";
-import { projects } from "@/data/projects";
+
 
 interface Props {
   active: string | null;
@@ -8,10 +10,19 @@ interface Props {
 }
 
 export function Categories({ active, onSelect }: Props) {
-  const counts = projects.reduce<Record<string, number>>((acc, p) => {
+  const [projectsList, setProjectsList] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDBProjects()
+      .then((data) => setProjectsList(data))
+      .catch((err) => console.error("Failed to load project counts for categories:", err));
+  }, []);
+
+  const counts = projectsList.reduce<Record<string, number>>((acc, p) => {
     acc[p.category] = (acc[p.category] ?? 0) + 1;
     return acc;
   }, {});
+
 
   return (
     <section id="categories" className="relative mx-auto max-w-7xl px-6 py-24">

@@ -1,14 +1,21 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { projects } from "@/data/projects";
+import { useState, useEffect } from "react";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
-import type { Project } from "@/data/projects";
 import { TbTrendingUp } from "react-icons/tb";
+import { getDBProjects } from "../lib/actions/dbActions";
 
 export function TrendingDashboards() {
-  const [open, setOpen] = useState<Project | null>(null);
-  const trending = projects.filter((p) => p.trending);
+  const [open, setOpen] = useState<any | null>(null);
+  const [projectsList, setProjectsList] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDBProjects()
+      .then((data) => setProjectsList(data))
+      .catch((err) => console.error("Failed to load trending projects:", err));
+  }, []);
+
+  const trending = projectsList.filter((p) => p.trending);
 
   return (
     <section id="trending" className="relative mx-auto max-w-7xl px-6 py-24">
@@ -31,7 +38,7 @@ export function TrendingDashboards() {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {trending.map((p, i) => (
-          <ProjectCard key={p.id} project={p} onOpen={setOpen} index={i} />
+          <ProjectCard key={p.id || p._id || i} project={p} onOpen={setOpen} index={i} />
         ))}
       </div>
 
@@ -39,3 +46,4 @@ export function TrendingDashboards() {
     </section>
   );
 }
+

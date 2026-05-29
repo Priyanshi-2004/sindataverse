@@ -3,13 +3,15 @@ import { TbUser, TbChevronRight } from "react-icons/tb";
 import type { TeamMember } from "../data/team";
 
 interface Props {
-  member: TeamMember;
+  member: any;
   index: number;
   onClick: () => void;
 }
 
 export function TeamCard({ member, index, onClick }: Props) {
-  const serial = `#${String(member.id).padStart(3, "0")}`;
+  const displayId = member.id !== undefined ? member.id : (index + 1);
+  const serial = `#${String(displayId).padStart(3, "0")}`;
+
 
   return (
     <motion.button
@@ -83,7 +85,7 @@ export function TeamCard({ member, index, onClick }: Props) {
 
       {/* Project preview pills */}
       <div className="mt-4 flex flex-wrap gap-1.5">
-        {member.projects.slice(0, 2).map((p) => (
+        {member.projects.slice(0, 2).map((p: any) => (
           <span
             key={p.title}
             className="rounded-md px-2 py-0.5 text-[10px] font-medium tracking-wide"
