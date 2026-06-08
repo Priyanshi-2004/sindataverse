@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { TbUser, TbChevronRight } from "react-icons/tb";
-import type { TeamMember } from "../data/team";
 
 interface Props {
   member: any;

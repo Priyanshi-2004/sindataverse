@@ -4,7 +4,7 @@ import { TbSparkles, TbUsers } from "react-icons/tb";
 import { TeamCard } from "./TeamCard";
 import { TeamMemberModal } from "./TeamMemberModal";
 import { ParticleField } from "./ParticleField";
-import { getDBTeamMembers } from "../lib/actions/dbActions";
+import { getDBTeamMembers, getDBProjects } from "../lib/actions/dbActions";
 
 // ── Section-level floating blur orbs ──────────────────────────
 
@@ -99,21 +99,39 @@ function SectionHead({ count, projectCount }: { count: number; projectCount: num
 export function TeamSection() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [members, setMembers] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDBTeamMembers()
-      .then((data) => {
-        setMembers(data);
+    Promise.all([getDBTeamMembers(), getDBProjects()])
+      .then(([membersData, projectsData]) => {
+        setMembers(membersData);
+        setProjects(projectsData);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Failed to load DB team members:", err);
+        console.error("Failed to load DB data:", err);
         setLoading(false);
       });
   }, []);
 
   const totalProjects = members.reduce((sum, member) => sum + member.projects.length, 0);
+
+  // Calculate unique tech stacks dynamically
+  const uniqueTechs = new Set<string>();
+  projects.forEach((p) => {
+    if (Array.isArray(p.technologies)) {
+      p.technologies.forEach((tech) => {
+        if (tech) uniqueTechs.add(tech.trim());
+      });
+    }
+  });
+  const techStacksCount = uniqueTechs.size > 0 ? `${uniqueTechs.size}+` : "9+";
+
+  // Calculate open source percentage dynamically
+  const openSourcePct = projects.length > 0
+    ? `${Math.round((projects.filter((p) => p.github || p.demo).length / projects.length) * 100)}%`
+    : "100%";
 
   return (
     <section
@@ -220,8 +238,8 @@ export function TeamSection() {
               v: totalProjects,
               l: "Projects Built",
             },
-            { v: "9+", l: "Tech Stacks" },
-            { v: "100%", l: "Open Source" },
+            { v: techStacksCount, l: "Tech Stacks" },
+            { v: openSourcePct, l: "Open Source" },
           ].map((s) => (
             <div
               key={s.l}

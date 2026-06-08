@@ -4,7 +4,7 @@ export interface IOfficial extends Document {
   name: string;
   role: string;
   designation: string;
-  badge: string;
+  badge?: string;
   createdAt: Date;
 }
 
@@ -12,7 +12,7 @@ const OfficialSchema: Schema = new Schema({
   name:        { type: String, required: true },
   role:        { type: String, required: true },
   designation: { type: String, required: true },
-  badge:       { type: String, required: true },
+  badge:       { type: String, required: false },
   createdAt:   { type: Date, default: Date.now },
 });
 

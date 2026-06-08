@@ -7,7 +7,6 @@ import {
   TbChartBar,
   TbSparkles,
 } from "react-icons/tb";
-import { teamMembers } from "../data/team";
 
 interface Props {
   memberId: string | number;

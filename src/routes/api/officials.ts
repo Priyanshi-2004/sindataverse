@@ -35,9 +35,9 @@ export const Route = createFileRoute("/api/officials")({
           const body = await request.json();
           const { name, role, designation, badge } = body as any;
 
-          if (!name || !role || !designation || !badge) {
+          if (!name || !role || !designation) {
             return Response.json(
-              { success: false, error: "Required fields: name, role, designation, badge" },
+              { success: false, error: "Required fields: name, role, designation" },
               { status: 400 }
             );
           }

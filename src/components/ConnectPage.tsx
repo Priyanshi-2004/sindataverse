@@ -103,7 +103,7 @@ export function ConnectPage() {
   const socials = [
     {
       icon: TbBrandGithub,
-      link: "https://github.com/Priyanshi-2004",
+      link: "https://github.com/Priyanshi-2004/sindataverse",
     },
     {
       icon: TbBrandLinkedin,
@@ -276,133 +276,21 @@ export function ConnectPage() {
             </button>
 
             <button className="group relative overflow-hidden rounded-xl border border-cyan-400/20 bg-cyan-400/[0.03] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300">
-              <span className="relative z-10">GitHub</span>
+              <a href="https://github.com/Priyanshi-2004/sindataverse"><span className="relative z-10">GitHub</span></a>
             </button>
 
             <button className="group relative overflow-hidden rounded-xl border border-cyan-400/20 bg-cyan-400/[0.03] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300">
-              <span className="relative z-10">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/priyanshi-gupta2003/"><span className="relative z-10">LinkedIn</span></a>
             </button>
 
           </div>
 
           {/* TRANSMISSION TERMINAL (CONTACT FORM) */}
-          <div className="mt-12 rounded-2xl border border-cyan-400/15 bg-[#07111f]/60 p-6 md:p-8 backdrop-blur-xl relative">
-            {/* Cyan pulse glow in corner */}
-            <div className="absolute right-0 top-0 h-24 w-24 bg-cyan-400/5 blur-2xl rounded-full" />
-            
-            <h3 className="text-center font-heading text-lg font-bold uppercase tracking-[0.25em] text-cyan-300 flex items-center justify-center gap-2">
-              <TbSend className="h-5 w-5 animate-pulse" />
-              TRANSMISSION TERMINAL
-            </h3>
-            <p className="mt-2 text-center text-[10px] tracking-[0.1em] text-white/40 uppercase">
-              Send a secure telemetry message direct to our MongoDB Cluster
-            </p>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
-                    IDENTIFIER / NAME
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your name"
-                    className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c]/80 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)]"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
-                    COMM CHANNEL / EMAIL
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@domain.com"
-                    className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c]/80 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)]"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
-                  INTEREST VECTOR
-                </label>
-                <div className="relative">
-                  <select
-                    value={interest}
-                    onChange={(e) => setInterest(e.target.value)}
-                    className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c] px-4 py-3 text-sm text-white transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)] appearance-none cursor-pointer"
-                  >
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Project Collaboration">Project Collaboration</option>
-                    <option value="Join the Team">Join the Team</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-cyan-300">
-                    <TbArrowRight className="h-4 w-4 rotate-90" />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[9px] uppercase tracking-[0.2em] text-white/50 mb-2">
-                  ENCRYPTED PAYLOAD / MESSAGE
-                </label>
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Type your message here..."
-                  rows={4}
-                  className="w-full rounded-xl border border-cyan-400/20 bg-[#030b1c]/80 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-300 focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-300 focus:shadow-[0_0_15px_rgba(34,211,238,0.2)] resize-none"
-                  required
-                />
-              </div>
-
-              <div className="flex justify-center">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="group relative overflow-hidden rounded-xl border border-cyan-400 bg-cyan-400/10 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.25em] text-cyan-300 transition-all duration-300 hover:scale-[1.03] hover:bg-cyan-400/25 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center gap-2">
-                      <TbLoader className="h-4 w-4 animate-spin" />
-                      TRANSMITTING...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2">
-                      <TbSend className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      INITIALIZE TRANSMISSION
-                    </span>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
 
           {/* CYBER INBOX PANEL */}
           <div className="mt-8 flex flex-col items-center">
-            <button
-              onClick={() => setShowInbox(!showInbox)}
-              className="group flex items-center gap-2 rounded-full border border-pink-500/30 bg-pink-500/[0.04] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-pink-300 transition-all duration-300 hover:scale-105 hover:border-pink-400 hover:bg-pink-500/10 hover:shadow-[0_0_20px_rgba(236,72,153,0.15)] cursor-pointer"
-            >
-              {showInbox ? (
-                <>
-                  <TbLock className="h-4 w-4 animate-bounce" />
-                  CLOSE SECURE INBOX
-                </>
-              ) : (
-                <>
-                  <TbTerminal className="h-4 w-4 animate-pulse" />
-                  ACCESS SECURE INBOX (MONGODB COMPASS)
-                </>
-              )}
-            </button>
+
 
             {showInbox && (
               <motion.div
@@ -413,7 +301,7 @@ export function ConnectPage() {
               >
                 {/* Scanline overlay */}
                 <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%),_linear-gradient(90deg,_rgba(255,0,0,0.06),_rgba(0,255,0,0.02),_rgba(0,0,255,0.06))] bg-[size:100%_4px,_6px_100%] opacity-20" />
-                
+
                 <div className="flex items-center justify-between border-b border-green-500/20 pb-4 relative z-10">
                   <div className="flex items-center gap-2">
                     <TbDatabase className="h-5 w-5 text-green-400 animate-pulse" />
@@ -491,7 +379,7 @@ export function ConnectPage() {
                     ))
                   )}
                 </div>
-                
+
                 <div className="mt-4 border-t border-green-500/10 pt-4 flex justify-between items-center relative z-10 font-mono text-[9px] text-green-500/40">
                   <span>STATUS: SECURE HANDSHAKE COMPLETED</span>
                   <span>SYNCED WITH COMPASS</span>
@@ -516,26 +404,26 @@ export function ConnectPage() {
               LOADING OFFICIAL DATA FROM TELEMETRY VECTOR...
             </div>
           ) : (
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-10 ml-[20%] grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {officials.map((official) => {
-                const isMentor = official.badge === "DIRECTOR" || official.badge === "LEAD" || official.badge === "LEAD MENTOR";
+                const isMentor = official.badge === "DIRECTOR" || official.badge === "LEAD" || official.badge === "LEAD MENTOR" || official.badge === "CHIEF PATRON";
                 return (
                   <div
                     key={official.id || official._id}
-                    className={`relative overflow-hidden rounded-[28px] border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,255,255,0.05)] ${
-                      isMentor
-                        ? "border-yellow-400/30 bg-gradient-to-br from-yellow-400/[0.04] to-transparent hover:border-yellow-300"
-                        : "border-cyan-400/20 bg-cyan-400/[0.03] hover:border-cyan-300"
-                    }`}
+                    className={`relative overflow-hidden rounded-[28px] text-center border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,255,255,0.05)] ${isMentor
+                      ? "border-yellow-400/30 bg-gradient-to-br from-yellow-400/[0.04] to-transparent hover:border-yellow-300"
+                      : "border-cyan-400/20 bg-cyan-400/[0.03] hover:border-cyan-300"
+                      }`}
                   >
                     {/* Badge */}
-                    <div className="mb-4 flex justify-center">
-                      <div className={`rounded-full px-3 py-1 text-[9px] font-black tracking-wider ${
-                        isMentor ? "bg-yellow-400 text-black" : "bg-cyan-500/10 text-cyan-300 border border-cyan-400/20"
-                      }`}>
-                        {official.badge}
+                    {official.badge && (
+                      <div className="mb-4 flex justify-center">
+                        <div className={`rounded-full px-3 py-1 text-[9px] font-black tracking-wider ${isMentor ? "bg-yellow-400 text-black" : "bg-cyan-500/10 text-cyan-300 border border-cyan-400/20"
+                          }`}>
+                          {official.badge}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Role */}
                     <p className="text-center text-[10px] uppercase tracking-[0.35em] text-pink-400">

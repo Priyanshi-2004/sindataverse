@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ParticleField } from "./ParticleField";
 import { TbSparkles, TbArrowRight, TbChartBar } from "react-icons/tb";
+import { getDBProjects } from "../lib/actions/dbActions";
 
 const TYPED = [
   "Data Analytics",
@@ -101,6 +102,32 @@ function FloatingDonut({ className, delay = 0 }: { className?: string; delay?: n
 
 export function Hero() {
   const typed = useTyped();
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDBProjects()
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Failed to load projects in Hero:", err));
+  }, []);
+
+  // Calculate unique tech stacks dynamically
+  const uniqueTechs = new Set<string>();
+  projects.forEach((p) => {
+    if (Array.isArray(p.technologies)) {
+      p.technologies.forEach((tech) => {
+        if (tech) uniqueTechs.add(tech.trim());
+      });
+    }
+  });
+  const techStacksCount = uniqueTechs.size > 0 ? `${uniqueTechs.size}` : "9";
+
+  // Calculate open source percentage dynamically
+  const openSourcePct = projects.length > 0
+    ? `${Math.round((projects.filter((p) => p.github || p.demo).length / projects.length) * 100)}%`
+    : "100%";
+
+  const projectCountStr = projects.length > 0 ? `${projects.length}+` : "50+";
+
   return (
     <section className="relative min-h-screen overflow-hidden pt-28">
       <div className="absolute inset-0 grid-bg" aria-hidden />
@@ -180,9 +207,9 @@ export function Hero() {
           className="mt-16 grid w-full max-w-3xl grid-cols-3 gap-4"
         >
           {[
-            { v: "50+", l: "Projects" },
-            { v: "9", l: "Tech Stacks" },
-            { v: "100%", l: "Open Source" },
+            { v: projectCountStr, l: "Projects" },
+            { v: techStacksCount, l: "Tech Stacks" },
+            { v: openSourcePct, l: "Open Source" },
           ].map((s) => (
             <div key={s.l} className="glass rounded-2xl px-4 py-5 text-center">
               <div className="text-2xl font-bold text-gradient md:text-3xl">{s.v}</div>
