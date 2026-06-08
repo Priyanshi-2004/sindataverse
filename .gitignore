@@ -39,3 +39,8 @@ bunfig.toml
 
 # Local Netlify folder
 .netlify
+
+# Local temp folders
+tmp
+/tmp
+
