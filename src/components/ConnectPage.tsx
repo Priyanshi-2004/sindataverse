@@ -391,7 +391,7 @@ export function ConnectPage() {
           {/* DYNAMIC OFFICIALS LIST */}
           {officials.length === 0 ? (
             <div className="mt-8 text-center text-xs text-white/35 font-mono">
-              LOADING OFFICIAL DATA FROM TELEMETRY VECTOR...
+
             </div>
           ) : (
             <div className="mt-10 ml-[20%] grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
