@@ -388,16 +388,6 @@ export function ConnectPage() {
             )}
           </div>
 
-          {/* DIVIDER */}
-          <div className="my-12 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" />
-
-          {/* OFFICIALS */}
-
-
-          <h2 className="text-center text-2xl font-black uppercase tracking-[0.25em] text-cyan-300">
-            OUR OFFICIALS
-          </h2>
-
           {/* DYNAMIC OFFICIALS LIST */}
           {officials.length === 0 ? (
             <div className="mt-8 text-center text-xs text-white/35 font-mono">

@@ -114,7 +114,7 @@ export function Hero() {
   const uniqueTechs = new Set<string>();
   projects.forEach((p) => {
     if (Array.isArray(p.technologies)) {
-      p.technologies.forEach((tech) => {
+      p.technologies.forEach((tech: any) => {
         if (tech) uniqueTechs.add(tech.trim());
       });
     }
